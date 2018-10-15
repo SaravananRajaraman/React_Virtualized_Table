@@ -4,24 +4,19 @@ import { injectGlobal } from 'emotion';
 
 export default class ConfigurableTable extends React.Component {
   rowRenderer(props) {
-    console.log(props);
-    const {
-      className,
-      columns,
-      index,
-      key,
-      onRowClick,
-      onRowDoubleClick,
-      onRowMouseOut,
-      onRowMouseOver,
-      onRowRightClick,
-      rowData,
-      style
-    } = props;
-    console.log(columns);
+    const { className, columns, key, style } = props;
     return (
       <div className={className} key={key} role="row" style={style}>
-        {columns.map((column, index) => column)}
+        {columns.map((column, index) => {
+          if (columns.length - 1 === index) {
+            //NOTE: here you can customise it,
+            // But make sure you need to wrappe it with the native props,
+            // since it has the style to render
+            return <span {...column.props}>{column.props.children}</span>;
+          } else {
+            return column;
+          }
+        })}
       </div>
     );
   }
@@ -39,12 +34,10 @@ export default class ConfigurableTable extends React.Component {
         rowHeight={30}
         rowCount={rows.length}
         rowGetter={({ index }) => {
-          // console.log(index, rows[index].data);
           return rows[index].data;
         }}
       >
         {columns.map(column => {
-          // console.log(column);
           return (
             <Column
               width={column.collWidth + 20}
