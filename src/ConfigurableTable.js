@@ -2,6 +2,9 @@ import React from 'react';
 import { Column, Table } from 'react-virtualized';
 import { injectGlobal } from 'emotion';
 
+import SortDirection from './SortDirection';
+import SortIndicator from './SortIndicator';
+
 export default class ConfigurableTable extends React.Component {
   rowRenderer(props) {
     const { className, columns, key, style } = props;
@@ -20,18 +23,31 @@ export default class ConfigurableTable extends React.Component {
       </div>
     );
   }
-
+  headerRenderer({ label }) {
+    return (
+      <span className="ReactVirtualized__Table__headerTruncatedText">
+        {label}
+      </span>
+    );
+  }
+  cellRenderer({ cellData }) {
+    // console.log(arguments, typeof cellData);
+    if (typeof cellData === 'object') {
+      return <div>{cellData}</div>;
+    } else {
+      return <span>{cellData}</span>;
+    }
+  }
   render() {
     const { rows, columns } = this.props;
     return (
       <Table
         disableHeader={false}
         width={columns.length * 100}
-        height={3000}
+        height={2000}
         headerHeight={20}
         rowRenderer={this.rowRenderer}
-        // headerRowRenderer={this.headerRowRenderer()}
-        rowHeight={30}
+        rowHeight={40}
         rowCount={rows.length}
         rowGetter={({ index }) => {
           return rows[index].data;
@@ -43,6 +59,8 @@ export default class ConfigurableTable extends React.Component {
               width={column.collWidth + 20}
               label={column.label}
               dataKey={column.id}
+              cellRenderer={this.cellRenderer}
+              headerRenderer={this.headerRenderer}
             />
           );
         })}

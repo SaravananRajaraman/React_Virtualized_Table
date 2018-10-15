@@ -56,9 +56,14 @@ const columns = [
     label: 'Box office, $',
     type: 'amount',
     collWidth: 120
+  },
+  {
+    id: 'actions',
+    label: 'Actions',
+    collWidth: 120
   }
 ];
-const rows2 = [
+const rows = [
   {
     id: 'rbc',
     data: {
@@ -67,7 +72,8 @@ const rows2 = [
       releaseDate: 'July 17, 1987',
       length: 102,
       budget: 13000000,
-      boxOffice: 53400000
+      boxOffice: 53400000,
+      actions: ['close']
     }
   },
   {
@@ -78,7 +84,8 @@ const rows2 = [
       releaseDate: 'June 1, 1990',
       length: 113,
       budget: 65000000,
-      boxOffice: 261300000
+      boxOffice: 261300000,
+      actions: ['save', 'approve']
     }
   },
   {
@@ -89,12 +96,13 @@ const rows2 = [
       releaseDate: 'November 7, 1997',
       length: 129,
       budget: 105000000,
-      boxOffice: 121200000
+      boxOffice: 121200000,
+      actions: ['reject', 'approve']
     }
   }
 ];
 
-const rows = dataGen(10);
+// const rows = dataGen(10);
 
 function App() {
   return <ConfigurableTable rows={rows} columns={columns} />;
